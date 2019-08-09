@@ -13,7 +13,7 @@ let truths: boolean[] = [true, false];
 
 class Car {}
 
-let car: Car = new Car();
+// let car: Car = new Car();
 
 let point: { x: number; y: number } = {
   x: 10,
@@ -51,3 +51,12 @@ for (let i = 0; i < numbers.length; i++) {
     numberAboveZero = numbers[i];
   }
 }
+
+const add = (a: number, b: number): number => {
+  return a + b;
+};
+
+// return type Void can return null or undefined;
+
+// never type means function will throw an error (not return anything)
+// if can throw error but can return string then return type is string
