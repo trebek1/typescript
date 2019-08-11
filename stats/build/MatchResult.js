@@ -1,4 +1,5 @@
 "use strict";
+// enum === enumeration
 Object.defineProperty(exports, "__esModule", { value: true });
 var MatchResult;
 (function (MatchResult) {
