@@ -5,7 +5,7 @@ class Boat {
     return `This boats colir is ${this.color}.`;
   }
 
-  @logError
+  @logError("Oh no the boat was sunk")
   pilot(): void {
     throw new Error();
   }
@@ -23,14 +23,16 @@ class Boat {
 // Property Descriptors
 // writable, enumerable, value, configurable
 // Object.getOwnPropertyDescriptor(obj);
-function logError(target: any, key: string, desc: PropertyDescriptor): void {
-  const method = desc.value;
-  desc.value = function() {
-    try {
-      method();
-    } catch (e) {
-      console.log("Oops the boat sunk");
-    }
+function logError(errorMessage: string) {
+  return function(target: any, key: string, desc: PropertyDescriptor): void {
+    const method = desc.value;
+    desc.value = function() {
+      try {
+        method();
+      } catch (e) {
+        console.log(errorMessage);
+      }
+    };
   };
 }
 
