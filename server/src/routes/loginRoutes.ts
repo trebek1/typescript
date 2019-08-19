@@ -1,4 +1,5 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response } from "express";
+import { AppRouter } from "../AppRouter";
 
 interface RequestWithBody extends Request {
   body: { [key: string]: string | undefined };
@@ -13,23 +14,7 @@ function requireAuth(req: Request, res: Response, next: NextFunction) {
   res.send("Not Permitted");
 }
 
-const router = Router();
-
-router.get("/login", (req: Request, res: Response) => {
-  res.send(`
-    <form method="POST">
-        <div>
-            <label>Email</label>
-            <input name="email" />
-        </div>
-        <div>
-            <label>Password</label>
-            <input name="password" type="password"/>
-        </div>
-        <button> Submit </button>
-    </form>
-  `);
-});
+const router = AppRouter.getInstance();
 
 router.get("/", (req: Request, res: Response) => {
   if (req.session && req.session.loggedIn) {
@@ -43,7 +28,7 @@ router.get("/", (req: Request, res: Response) => {
     res.send(`
     <div>
       <div> You are logged out</div>
-      <a href="/login">Login </a>
+      <a href="/auth/login">Login </a>
     </div>
     `);
   }
