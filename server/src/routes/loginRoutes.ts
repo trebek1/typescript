@@ -39,18 +39,6 @@ router.get("/logout", (req: Request, res: Response) => {
   res.redirect("/");
 });
 
-router.post("/login", (req: RequestWithBody, res: Response) => {
-  const { email, password } = req.body;
-  if (email && password && email === "hi@hi.com" && password === "password") {
-    // mark person logged in
-    // redirect to root
-    req.session = { loggedIn: true };
-    res.redirect("/");
-  } else {
-    res.send("Invalid email or password");
-  }
-});
-
 router.get("/protected", requireAuth, (req: Request, res: Response) => {
   res.send("Welcome to protected route, logged in user");
 });
