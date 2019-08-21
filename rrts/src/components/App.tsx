@@ -1,26 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Todo, fetchTodos } from "../actions";
+import { Todo, fetchTodos, deleteTodo } from "../actions";
 import { StoreState } from "../reducers";
 
 interface AppProps {
   todos: Todo[];
-  fetchTodos(): any;
+  fetchTodos: Function; // no easy way to fix this typedef cant handle promise
+  deleteTodo: typeof deleteTodo;
 }
 
 class _App extends React.Component<AppProps> {
   onButtonClick = (): void => {
     this.props.fetchTodos();
   };
+  onTodoClick = (id: number): void => {
+    this.props.deleteTodo(id);
+  };
   renderList(): JSX.Element[] {
-    return this.props.todos.map(({ id, title }: Todo) => {
-      return <div key={id}>{title}</div>;
+    return this.props.todos.map((todo: Todo) => {
+      return (
+        <div onClick={() => this.onTodoClick(todo.id)} key={todo.id}>
+          {todo.title}
+        </div>
+      );
     });
   }
   render() {
     return (
-      <div onClick={this.onButtonClick}>
-        <button>Fetch</button>
+      <div>
+        <button onClick={this.onButtonClick}>Fetch</button>
         {this.renderList()}
       </div>
     );
@@ -35,5 +43,5 @@ const mapStateToProps = ({ todos }: StoreState): { todos: Todo[] } => {
 
 export const App = connect(
   mapStateToProps,
-  { fetchTodos }
+  { fetchTodos, deleteTodo }
 )(_App);
